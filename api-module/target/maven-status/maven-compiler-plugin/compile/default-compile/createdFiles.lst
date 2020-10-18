@@ -1,0 +1,3 @@
+com\itAcademy\api\service\IAnimalService.class
+com\itAcademy\api\service\IBattle.class
+com\itAcademy\api\dao\IAnimalDao.class

@@ -1,4 +1,4 @@
 package com.itAcademy.entities;
 
-public class Dog {
+public class Dog extends Animal {
 }

@@ -2,13 +2,11 @@ package com.itAcademy.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serializable;
 
-@Setter
 @Getter
-@ToString
+@Setter
 public abstract class Animal implements Serializable {
     protected String name;
 
@@ -35,4 +33,23 @@ public abstract class Animal implements Serializable {
     protected double criticalChance;
 
     protected String type;
+
+    @Override
+    public String toString() {
+
+        if (type.equals("cat")){
+            return "Cat{" +
+                    "name='" + name + '\'' +
+                    ", level=" + level +
+                    ", health=" + health +
+                    '}';
+        }else {
+            return "Dog{" +
+                    "name='" + name + '\'' +
+                    ", level=" + level +
+                    ", health=" + health +
+                    '}';
+        }
+
+    }
 }
