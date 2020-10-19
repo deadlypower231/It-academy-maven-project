@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.local</groupId>
             <artifactId>SerializationUtils</artifactId>
-            <version>${serializationUtils.local}</version>
+            <version>${serializationUtils.local.version}</version>
         </dependency>
 
     </dependencies>
