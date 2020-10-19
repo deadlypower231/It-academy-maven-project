@@ -37,13 +37,13 @@ public abstract class Animal implements Serializable {
     @Override
     public String toString() {
 
-        if (type.equals("cat")){
+        if (type.equals("cat")) {
             return "Cat{" +
                     "name='" + name + '\'' +
                     ", level=" + level +
                     ", health=" + health +
                     '}';
-        }else {
+        } else {
             return "Dog{" +
                     "name='" + name + '\'' +
                     ", level=" + level +
