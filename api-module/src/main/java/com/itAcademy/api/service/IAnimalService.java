@@ -6,11 +6,11 @@ public interface IAnimalService {
 
     Animal loadOrCreate();
 
+    Animal loadFromMySQL(String name);
+
     Animal chooseRace();
 
     Animal createComputerAnimal(Animal animal);
-
-    Animal loadFromFile(String name);
 
     StringBuilder start();
 

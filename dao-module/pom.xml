@@ -24,8 +24,13 @@
             <version>${apache.commons-lang3.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+        </dependency>
     </dependencies>
+
 
 
 </project>

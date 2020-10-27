@@ -9,8 +9,10 @@ import com.itAcademy.entities.Cat;
 import com.itAcademy.entities.Dog;
 import com.itAcademy.utils.SetStatsNextLevel;
 
-import java.io.*;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,23 +29,35 @@ public class AnimalService implements IAnimalService {
         Matcher matcher = pattern.matcher(name);
         boolean isCheckName = matcher.matches();
         if (isCheckName) {
-            File file = new File("src\\FightingAnimals\\save\\" + name + ".txt");
-            if (file.exists()) {
-                System.out.println("This name exists!");
-                return false;
+            try {
+                return animalDao.getAllEntities().stream().noneMatch(x -> x.equals(name));
+
+            } catch (SQLException | IOException throwables) {
+                System.out.println("No connection to MySQL!");
             }
+
         }
         return isCheckName;
     }
 
     @Override
     public Animal loadOrCreate() {
-        Animal animal;
+        Animal animal = null;
         System.out.println("\nLoad a hero or create a new hero?\n1-Load.\n2-Create.");
         int i = getIntReader();
         if (i == 1) {
             System.out.println(ENTER_YOUR_NAME);
-            animal = loadFromFile(exists(getName()));
+            String name;
+            boolean isCheckName = true;
+            while (isCheckName) {
+                name = getName();
+                if (!checkName(name)) {
+                    animal = loadFromMySQL(name);
+                    isCheckName = false;
+                } else {
+                    System.out.println(ENTER_YOUR_NAME);
+                }
+            }
         } else if (i == 2) {
             animal = chooseRace();
             System.out.println(ENTER_YOUR_NAME);
@@ -156,94 +170,23 @@ public class AnimalService implements IAnimalService {
         return number;
     }
 
-
-    public static void saveToFile(Animal animal) {
-        StringBuilder stats = new StringBuilder()
-                .append("id0: ").append(animal.getType())
-                .append("\nid1: ").append(animal.getName())
-                .append("\nid2: ").append(animal.getLevel())
-                .append("\nid3: ").append(animal.getExperience())
-                .append("\nid4: ").append(animal.getHealth())
-                .append("\nid5: ").append(animal.getMana())
-                .append("\nid6: ").append(animal.getDamage())
-                .append("\nid7: ").append(animal.getDefence())
-                .append("\nid8: ").append(animal.getStrength())
-                .append("\nid9: ").append(animal.getAgility())
-                .append("\nid10: ").append(animal.getIntelligence())
-                .append("\nid11: ").append(animal.getCriticalChance())
-                .append("\nid12: ").append(animal.getCriticalStrikeMultiplier());
+    public static void saveToMySQL(Animal animal) {
         try {
-            animalDao.saveToFile(stats, animal.getName());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            animalDao.saveToMySQL(animal);
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            System.out.println("No connection!");
         }
     }
 
     @Override
-    public Animal loadFromFile(String name) {
+    public Animal loadFromMySQL(String name) {
         Animal animal = null;
         try {
-            Map<String, String> stats = animalDao.loadFromFile(name);
-            animal = ((stats.get("id0:").equals("cat")) ? new Cat() : new Dog());
-            for (Map.Entry<String, String> s :
-                    stats.entrySet()) {
-                switch (s.getKey()) {
-                    case "id0:":
-                        animal.setType(s.getValue());
-                        break;
-                    case "id1:":
-                        animal.setName(s.getValue());
-                        break;
-                    case "id2:":
-                        animal.setLevel(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id3:":
-                        animal.setExperience(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id4:":
-                        animal.setHealth(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id5:":
-                        animal.setMana(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id6:":
-                        animal.setDamage(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id7:":
-                        animal.setDefence(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id8:":
-                        animal.setStrength(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id9:":
-                        animal.setAgility(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id10:":
-                        animal.setIntelligence(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id11:":
-                        animal.setCriticalChance(Double.parseDouble(s.getValue()));
-                        break;
-                    case "id12:":
-                        animal.setCriticalStrikeMultiplier(Double.parseDouble(s.getValue()));
-                        break;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Exception");
+            animal = animalDao.loadFromMySQL(name);
+        } catch (SQLException | IOException throwables) {
+            System.out.println("No connection!");
         }
         return animal;
-    }
-
-    private String exists(String fileName) {
-        String fullName = "save-module\\src\\main\\java\\com\\itAcademy\\save\\" + fileName + ".txt";
-        File file = new File(fullName);
-        if (!file.exists()) {
-            System.out.println("File does not exists!");
-            System.out.println(ENTER_YOUR_NAME);
-            return exists(getName());
-        }
-        return fileName;
     }
 
     public static void levelUp(Animal animal) {
@@ -257,16 +200,9 @@ public class AnimalService implements IAnimalService {
 
     @Override
     public StringBuilder start() {
-        StringBuilder stringBuilder = new StringBuilder(TITLE);
-        stringBuilder.append("\t\tWelcome to FA\n").append(TITLE);
-        return stringBuilder;
+        return new StringBuilder(TITLE).append("\t\tWelcome to FA\n").append(TITLE);
     }
 
-    /**
-     * Метод exit запрашивает у пользователя, продолжить покинуть игру или нет.
-     *
-     * @return boolean
-     */
     @Override
     public boolean exit() {
         System.out.println("Quit the game?\n1-Yes.\n2-No.\n");

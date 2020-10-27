@@ -1,14 +1,19 @@
 package com.itAcademy.api.dao;
 
+import com.itAcademy.entities.Animal;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.List;
 
 public interface IAnimalDao {
 
-    Map<String, String> loadFromFile(String name) throws IOException;
+    void saveToMySQL(Animal animal) throws SQLException, ClassNotFoundException, IOException;
 
-    void saveToFile(StringBuilder stats, String name) throws FileNotFoundException;
+    Animal loadFromMySQL(String name) throws SQLException, IOException;
+
+    List<String> getAllEntities() throws SQLException, IOException;
 
 
 }

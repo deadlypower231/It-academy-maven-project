@@ -15,17 +15,22 @@
         <module>main-module</module>
         <module>service-module</module>
         <module>util-module</module>
-        <module>save-module</module>
     </modules>
 
     <properties>
         <lombok.version>1.18.16</lombok.version>
         <apache.commons-lang3.version>3.0</apache.commons-lang3.version>
-        <serializationUtils.local.version>1.1-SNAPSHOT</serializationUtils.local.version>
+        <serializ.version>1.1-SNAPSHOT</serializ.version>
+        <mysql.connector.version>8.0.21</mysql.connector.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -38,9 +43,9 @@
                 <version>${apache.commons-lang3.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.local</groupId>
-                <artifactId>SerializationUtils</artifactId>
-                <version>${serializationUtils.local.version}</version>
+                <groupId>com.serializ</groupId>
+                <artifactId>serializ</artifactId>
+                <version>${serializ.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

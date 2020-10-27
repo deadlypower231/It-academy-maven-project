@@ -4,7 +4,8 @@ package com.itAcademy.services;
 import com.itAcademy.api.service.IBattle;
 import com.itAcademy.entities.Animal;
 import com.itAcademy.utils.GetStats;
-import com.serialization.SerializationUtils;
+import com.serializz.Serialize;
+
 
 public class Battle implements IBattle {
 
@@ -19,8 +20,8 @@ public class Battle implements IBattle {
             while ((isChance && counterRound % 2 != 0 && animal1.getHealth() <= startHpAnimal1 / 2) ||
                     (isChance && counterRound % 2 != 0 && animal2.getHealth() <= startHpAnimal2 / 2)) {
                 isChance = false;
-                SerializationUtils.serialization(animal1, animal1.getName());
-                SerializationUtils.serialization(animal2, animal2.getName());
+                Serialize.serialization(animal1, animal1.getName());
+                Serialize.serialization(animal2, animal2.getName());
             }
             if (counterRound % 2 != 0) {
                 System.out.println("Round " + counterRound + "!\n");
@@ -32,8 +33,8 @@ public class Battle implements IBattle {
                     System.out.println("Lucky chance! Let`s try? 1(Yes) or 2(No)");
                     int x = AnimalService.getIntReader();
                     if (x == 1) {
-                        animal1 = (Animal) SerializationUtils.deserialization(animal1.getName());
-                        animal2 = (Animal) SerializationUtils.deserialization(animal2.getName());
+                        animal1 = (Animal) Serialize.deserialization(animal1.getName());
+                        animal2 = (Animal) Serialize.deserialization(animal2.getName());
                         System.out.println(animal1);
                         System.out.println(animal2);
                         luckyBattle(animal1, animal2, startHpAnimal1, startHpAnimal2);
@@ -52,8 +53,8 @@ public class Battle implements IBattle {
                     System.out.println("Lucky chance! Let`s try? 1(Yes) or 2(No)");
                     int x = AnimalService.getIntReader();
                     if (x == 1) {
-                        animal1 = (Animal) SerializationUtils.deserialization(animal1.getName());
-                        animal2 = (Animal) SerializationUtils.deserialization(animal2.getName());
+                        animal1 = (Animal) Serialize.deserialization(animal1.getName());
+                        animal2 = (Animal) Serialize.deserialization(animal2.getName());
                         System.out.println(animal1);
                         System.out.println(animal2);
                         luckyBattle(animal2, animal1, startHpAnimal2, startHpAnimal1);

@@ -4,7 +4,7 @@ import com.itAcademy.entities.Animal;
 
 public class GetStats {
 
-    private GetStats(){
+    private GetStats() {
 
     }
 

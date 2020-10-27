@@ -31,9 +31,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.local</groupId>
-            <artifactId>SerializationUtils</artifactId>
-            <version>${serializationUtils.local.version}</version>
+            <groupId>com.serializ</groupId>
+            <artifactId>serializ</artifactId>
+            <version>${serializ.version}</version>
         </dependency>
 
     </dependencies>

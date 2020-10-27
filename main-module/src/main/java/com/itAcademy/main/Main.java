@@ -21,7 +21,7 @@ public class Main {
             System.out.println(animal + "\n" + computer);
             animal = battle.battle(animal, computer);
             AnimalService.levelUp(animal);
-            AnimalService.saveToFile(animal);
+            AnimalService.saveToMySQL(animal);
             if (animalService.exit()) {
                 return;
             }
