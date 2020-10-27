@@ -32,8 +32,10 @@ public class AnimalService implements IAnimalService {
             try {
                 return animalDao.getAllEntities().stream().noneMatch(x -> x.equals(name));
 
-            } catch (SQLException | IOException throwables) {
+            } catch (SQLException e) {
                 System.out.println("No connection to MySQL!");
+            }catch (IOException e){
+                System.out.println("Properties file is not found!");
             }
 
         }
